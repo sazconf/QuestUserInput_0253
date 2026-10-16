@@ -4,12 +4,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.Button
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -36,7 +42,9 @@ fun FormDataDiri(modifier: Modifier) {
     var gender: List<String> = listOf("Laki-laki", "Perempuan")
 
     Column(
-        modifier = Modifier.padding(top = 50.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(top = 50.dp),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -44,76 +52,78 @@ fun FormDataDiri(modifier: Modifier) {
             value = textNama,
             singleLine = true,
             shape = MaterialTheme.shapes.large,
-            modifier = Modifier.width(250.dp),
-            label = { Text(text = "Nama Lengkap") },
+            modifier = Modifier.width(300.dp),
+            label = { Text(text = "Nama") },
             onValueChange = {
                 textNama = it
             }
         )
-    }
 
-    Row {
-        gender.forEach { item ->
-            Row(
-                modifier = Modifier.selectable(
-                    selected = textJK == item,
-                    onClick = { textJK = item }
-                )
-            ) {
-                Text(text = item)
+        Row(
+            modifier = Modifier.padding(vertical = 20.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            gender.forEach { item ->
+                Row(
+                    modifier = Modifier.selectable(
+                        selected = textJK == item,
+                        onClick = { textJK = item }
+                    ),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    RadioButton(
+                        selected = textJK == item,
+                        onClick = { textJK = item }
+                    )
+                    Text(text = item)
+                }
             }
         }
-    }
 
-    horizontalAllignment = Alignment.CenterHorizontally{
         OutlinedTextField(
             value = textAlamat,
             singleLine = true,
-            modifier = Modifier.width(250.dp),
+            modifier = Modifier.width(300.dp),
             label = { Text(text = "Alamat") },
             onValueChange = {
                 textAlamat = it
-            })
-    }
-
-    HorizontalDivider(
-        modifier = Modifier.padding(
-            bottom =
-                dimensionResource(id = R.dimen.padding_medium),
-            top = dimensionResource(
-                id = R.dimen.padding_medium)
-
-
+            }
         )
-        thickness = dimensionResource(1dp),
-        color = Color.DarkGray
-    )
 
-    Button(
-        modifier = Modifier.fillMaxWidth(fraction = 1f),
-        //the button is enabled when the user makes a selection
-        enabled = textAlamat.isNotEmpty(),
-        onClick = {
-            nama = textNama
-            alamat = textAlamat
-            jenis = textJK
-        }
-    ) {
-        text(stringResource(id = R.string.submit))
-        horizontalDividier {
+        HorizontalDivider(
             modifier = Modifier.padding(
                 bottom = dimensionResource(id = R.dimen.padding_medium),
                 top = dimensionResource(id = R.dimen.padding_medium)
-            )
+            ),
+            thickness = dimensionResource(id = R.dimen.divider_tipis),
+            color = Color.DarkGray
+        )
+
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            enabled = textAlamat.isNotEmpty(),
+            onClick = {
+                nama = textNama
+                alamat = textAlamat
+                jenis = textJK
+            }
+        ) {
+            Text(text = stringResource(id = R.string.submit))
+        }
+
+        ElevatedCard(
+            elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
+            colors = CardDefaults.cardColors(containerColor = Color.Black),
+            modifier = Modifier
+                .height(100.dp)
+                .width(300.dp)
+
+        ) {
+            Column(modifier = Modifier.padding(horizontal = 5.dp, vertical = 15.dp)) {
+                Text(text = "Nama : " + nama, color = Color.White)
+                Text(text = "Gender : " + jenis, color = Color.White)
+                Text(text = "Alamat : " + alamat, color = Color.White)
+            }
         }
     }
-
-    ElevatedCard(
-        elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
-
-    )
-
-
-
-
 }
