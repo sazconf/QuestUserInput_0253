@@ -3,9 +3,11 @@ package com.example.pertemuan5
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -16,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 
@@ -77,8 +80,40 @@ fun FormDataDiri(modifier: Modifier) {
         modifier = Modifier.padding(
             bottom =
                 dimensionResource(id = R.dimen.padding_medium),
+            top = dimensionResource(
+                id = R.dimen.padding_medium)
+
 
         )
+        thickness = dimensionResource(1dp),
+        color = Color.DarkGray
     )
+
+    Button(
+        modifier = Modifier.fillMaxWidth(fraction = 1f),
+        //the button is enabled when the user makes a selection
+        enabled = textAlamat.isNotEmpty(),
+        onClick = {
+            nama = textNama
+            alamat = textAlamat
+            jenis = textJK
+        }
+    ) {
+        text(stringResource(id = R.string.submit))
+        horizontalDividier {
+            modifier = Modifier.padding(
+                bottom = dimensionResource(id = R.dimen.padding_medium),
+                top = dimensionResource(id = R.dimen.padding_medium)
+            )
+        }
+    }
+
+    ElevatedCard(
+        elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
+
+    )
+
+
+
 
 }
